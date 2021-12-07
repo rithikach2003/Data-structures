@@ -1,0 +1,47 @@
+long int swaps=0;
+void merge(long long int a[], long int l, long int mid, long int h)
+{
+    long long int c[h+1];
+    long int i=l,j=mid+1,k=l;
+    while (i<=mid && j<=h) {  
+        if(a[i]<=a[j])
+            c[k++] = a[i++];
+        else if(a[i]>a[j])
+        { 
+            c[k++] = a[j++];
+            swaps+= mid+1-i;
+        }
+    }
+    for(;i<=mid;i++) c[k++] = a[i];
+    for(;j<=h;j++) c[k++] = a[j];
+    for(int i=l;i<=h;i++) a[i] = c[i];
+}
+
+void mergerSort(long long int a[],long int l, long int h)
+{
+    long int mid;
+    if(l<h)
+    {
+        mid = (l+h)/2;
+        mergerSort(a, l, mid);
+        mergerSort(a, mid+1, h);
+        merge(a, l, mid, h);
+    }
+}
+
+int main()
+{
+    int t;
+    scanf("%d",&t);
+    for(int i=0;i<t;i++)
+    {
+        long int n;
+        scanf("%ld",&n);
+        long long int a[n];
+        for(int j=0;j<n;j++) 
+            scanf("%lld ",&a[j]);
+        mergerSort(a, 0, n-1);
+        printf("%ld\n",swaps);
+        swaps = 0;
+    }
+}
